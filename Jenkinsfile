@@ -47,32 +47,3 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            cleanWs() // Clean up the Jenkins workspace after every build
-        }
-        success {
-            echo 'local_file Terraform pipeline completed successfully!'
-            // Send Slack notification on success
-            slackSend(
-                channel: '#team', // Replace with your Slack channel name, e.g., '#devops-alerts'
-                color: 'good',
-                message: "SUCCESS: Terraform pipeline for ${env.JOB_NAME} build ${env.BUILD_NUMBER} completed successfully!" +
-                         "\nJenkins URL: ${env.BUILD_URL}",
-                tokenCredentialId: 'slack-token' // Use your specified Slack token credential ID
-            )
-        }
-        failure {
-            echo 'local_file Terraform pipeline failed!'
-            // Send Slack notification on failure
-            slackSend(
-                channel: '#team', // Replace with your Slack channel name
-                color: 'danger',
-                message: "FAILURE: Terraform pipeline for ${env.JOB_NAME} build ${env.BUILD_NUMBER} failed!" +
-                         "\nJenkins URL: ${env.BUILD_URL}",
-                tokenCredentialId: 'slack-token' // Use your specified Slack token credential ID
-            )
-        }
-    }
-}
