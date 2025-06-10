@@ -1,6 +1,11 @@
 pipeline {
     agent any // You can specify a specific agent label if needed, e.g., agent { label 'terraform-agent' }
 
+        tools
+        {
+            terraform 'terraform'
+        }
+
 
     stages {
         stage('Checkout Code') {
